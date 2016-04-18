@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+
+
+<beans>
+		<bean id="triangle" class="org.Spring.Test.Triangle" name="triangle-aliasName"><!-- instiate obect of the class -->
+		<!-- property injection -->
+		<!-- <property name="type" value="Equilateral"/> --><!-- pre setting value for the type using setType setting value-->
+		
+		<!--  Constructor injection -->
+		 <!-- 	<constructor-arg value="Equilateral"/>--><!-- passing only one value to the constructor takes one parameter constructor-->
+		 <!-- 	<constructor-arg value="20"/>--><!-- another param is int height passing value in string spring automatically takes care of that-->
+		
+		<!-- to resolve while having different dataType params can specify TYPE and INDEX to resolve that issue.-->
+		     <!--  <constructor-arg type="java.lang.String" value="Equilateral"/> --> <!-- for string specify the complete package name -->
+		<!--	<constructor-arg type="int" value="20"/> --> 
+		
+		<!--  with INDEX the order of the param is given -->
+				<constructor-arg index="0" value="Equilateral"/> <!-- for param 1 -->
+			<constructor-arg index="1" value="20"/> <!--  for param 2 -->
+		</bean>
+ 
+ <!-- Object injection -->
+	  <bean id="triangleWP" class="org.Spring.Test.TriangleWithPoints" autowire="byName"><!--  trianglewithPoints class object is initiated -->
+		 <property name="pointA" ref="zeroPoint"/><!-- refering the bean objects name refers to the member objects (ref TAG NAME)-->
+		 <property name="pointB" ><!-- INNER beans -->
+	 			<bean  class="org.Spring.Test.Points"> <!-- id is not mandatory unless we want to refer that -->
+					<property name="x" value="-20"/>
+	 				<property name="y" value="0"/>
+	 			</bean>
+ 		</property>
+	 <!-- ref here refers to the name can use idref -->
+	 <property name="pointc" ref="Point2">
+	 <!--<idref="Point2" /> refers with id -->
+	 </property>
+	 
+ 		</bean>
+ 		
+	 <!--  initiate three objects of point class -->
+	 <bean id="zeroPoint" class="org.Spring.Test.Points">
+	 <property name="x" value="0"/>
+	 <property name="y" value="0"/>
+	 </bean>
+	 
+	 <!--  POint1 and point2 are since value specific not going to use anywhere else other than this Triangle object in that case can use INNERBEANS-->
+	 
+	 <bean id="Point2" class="org.Spring.Test.Points">
+	 <property name="x" value="20"/>
+	 <property name="y" value="0"/>
+	 </bean>
+	 
+	 <!-- Aliases different name to the same bean(can specify in the initial bean tag with NAME) -->
+	 <alias name="triangle" alias="triangle-alias"/>
+ </beans>
